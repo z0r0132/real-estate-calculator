@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Real estate calculator</title>
+    <style>
+      label {
+        text-transform: capitalize;
+        min-width: 300px;
+        display: inline-block;
+        margin-bottom: 8px;
+      }
+      #results {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="form">
+      <div>
+        <label for="price">price</label
+        ><input type="text" id="price" placeholder="price" />
+      </div>
+      <div>
+        <label for="capital">capital</label
+        ><input type="text" id="capital" placeholder="capital" />
+      </div>
+      <div>
+        <label for="effective_tax_percentage">effective tax percentage</label
+        ><input
+          type="text"
+          id="effective_tax_percentage"
+          placeholder="effective tax percentage"
+        />
+      </div>
+      <div>
+        <label for="yearly_loan_percentage"
+          >yearly loan initial percentage</label
+        ><input
+          type="text"
+          id="yearly_loan_percentage"
+          placeholder="yearly loan initial percentage"
+        />
+      </div>
+      <div>
+        <label for="depreciation">depreciation</label
+        ><input type="text" id="depreciation" placeholder="depreciation" />
+      </div>
+      <div>
+        <label for="rent_income_yearly">yearly rent income</label
+        ><input
+          type="text"
+          id="rent_income_yearly"
+          placeholder="yearly rent income"
+        />
+      </div>
+      <div>
+        <label for="interest_percentage">Loan interest percentage</label
+        ><input
+          type="text"
+          id="interest_percentage"
+          placeholder="Loan interest percentage"
+        />
+      </div>
+      <div>
+        <label for="apartment_expenses">apartment expenses</label
+        ><input
+          type="text"
+          id="apartment_expenses"
+          placeholder="apartment expenses"
+        />
+      </div>
+      <div>
+        <label for="property_manager_fees">property manager fees</label
+        ><input
+          type="text"
+          id="property_manager_fees"
+          placeholder="property manager fees"
+        />
+      </div>
+
+      <button id="calculate">Calculate</button>
+    </div>
+
+    <div id="results">
+      <div>Loan Amount:</div>
+      <div class="loan_amount" id="loan_amount"></div>
+      <div>Interest Amount:</div>
+      <div class="interest_amount" id="interest_amount"></div>
+      <div>Profit without Tax:</div>
+      <div class="profit_without_tax" id="profit_without_tax"></div>
+      <div>Tax Deductible Amount:</div>
+      <div class="tax_deductible" id="tax_deductible"></div>
+
+      <div>Yearly passive income:</div>
+      <div class="yearly_passive_income" id="yearly_passive_income"></div>
+    </div>
+    <script>
+      document
+        .getElementById("calculate")
+        .addEventListener("click", function () {
+          document.getElementById("loan_amount").innerHTML = "";
+          document.getElementById("interest_amount").innerHTML = "";
+          document.getElementById("profit_without_tax").innerHTML = "";
+          document.getElementById("tax_deductible").innerHTML = "";
+          document.getElementById("yearly_passive_income").innerHTML = "";
+          var price = document.getElementById("price").value * 1;
+          var capital = document.getElementById("capital").value * 1;
+          var effective_tax_percentage =
+            document.getElementById("effective_tax_percentage").value * 1;
+          var yearly_loan_percentage =
+            document.getElementById("yearly_loan_percentage").value * 1;
+          var depreciation = document.getElementById("depreciation").value * 1;
+          var rent_income_yearly =
+            document.getElementById("rent_income_yearly").value * 1;
+          var interest_percentage =
+            document.getElementById("interest_percentage").value * 1;
+          var apartment_expenses =
+            document.getElementById("apartment_expenses").value * 1;
+          var property_manager_fees =
+            document.getElementById("property_manager_fees").value * 1;
+
+          var loan_amount = price - capital;
+          var interest_amount = (loan_amount * interest_percentage) / 100;
+          var profit_without_tax =
+            rent_income_yearly -
+            (interest_amount + apartment_expenses + property_manager_fees);
+          var tax_deductible =
+            ((interest_amount +
+              property_manager_fees +
+              depreciation -
+              rent_income_yearly) *
+              effective_tax_percentage) /
+            100;
+          var yearly_passive_income =
+            tax_deductible +
+            profit_without_tax -
+            (yearly_loan_percentage * loan_amount) / 100;
+          document.getElementById("loan_amount").innerHTML = loan_amount;
+          document.getElementById("interest_amount").innerHTML =
+            interest_amount;
+          document.getElementById("profit_without_tax").innerHTML =
+            profit_without_tax;
+          document.getElementById("tax_deductible").innerHTML = tax_deductible;
+          document.getElementById("yearly_passive_income").innerHTML =
+            yearly_passive_income;
+          document.getElementById("results").style.display = "block";
+        });
+    </script>
+  </body>
+</html>
