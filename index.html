@@ -15,24 +15,99 @@
       #results {
         display: none;
       }
+      #form > div {
+        margin-bottom: 16px;
+      }
+      .result {
+        margin-bottom: 16px;
+        font-weight: 500;
+      }
+      body {
+        display: flex;
+        flex-wrap: wrap;
+      }
+      body > div {
+        min-width: 700px;
+      }
     </style>
   </head>
   <body>
     <div id="form">
+      <h1>Real estate calculator</h1>
       <div>
-        <label for="price">price</label
-        ><input type="text" id="price" placeholder="price" />
+        <label for="apartment_price">apartment price</label
+        ><input
+          type="text"
+          id="apartment_price"
+          placeholder="apartment price"
+          value="187400"
+        />
+      </div>
+      <div>
+        <label for="price">total price</label
+        ><input
+          type="text"
+          id="price"
+          placeholder="total price"
+          value="206944"
+        />
+      </div>
+      <div>
+        <label for="rent_income_yearly">yearly rent income</label
+        ><input
+          type="text"
+          id="rent_income_yearly"
+          placeholder="yearly rent income"
+          value="5640"
+        />
+      </div>
+      <div>
+        <label for="apartment_expenses">apartment expenses</label
+        ><input
+          type="text"
+          id="apartment_expenses"
+          placeholder="apartment expenses"
+          value="360"
+        />
+      </div>
+      <div>
+        <label for="property_manager_fees">property manager fees</label
+        ><input
+          type="text"
+          id="property_manager_fees"
+          placeholder="property manager fees"
+          value="720"
+        />
+      </div>
+      <div>
+        <label for="appreciation">yearly appreciation percentage</label
+        ><input
+          type="text"
+          id="appreciation"
+          placeholder="appreciation percentage"
+          value="1"
+        />
+      </div>
+      <div>
+        <label for="depreciation">depreciation</label
+        ><input
+          type="text"
+          id="depreciation"
+          placeholder="depreciation"
+          value="3561"
+        />
       </div>
       <div>
         <label for="capital">capital</label
-        ><input type="text" id="capital" placeholder="capital" />
+        ><input type="text" id="capital" placeholder="capital" value="79518" />
       </div>
       <div>
-        <label for="effective_tax_percentage">effective tax percentage</label
+        <label for="interest_percentage">Loan interest percentage</label
         ><input
           type="text"
-          id="effective_tax_percentage"
-          placeholder="effective tax percentage"
+          id="interest_percentage"
+          placeholder="Loan interest percentage"
+          value="1.35"
         />
       </div>
       <div>
@@ -42,42 +117,18 @@
           type="text"
           id="yearly_loan_percentage"
           placeholder="yearly loan initial percentage"
+          value="2"
         />
       </div>
+
       <div>
-        <label for="depreciation">depreciation</label
-        ><input type="text" id="depreciation" placeholder="depreciation" />
-      </div>
-      <div>
-        <label for="rent_income_yearly">yearly rent income</label
+        <label for="effective_tax_percentage"
+          >Your effective income tax percentage</label
         ><input
           type="text"
-          id="rent_income_yearly"
-          placeholder="yearly rent income"
-        />
-      </div>
-      <div>
-        <label for="interest_percentage">Loan interest percentage</label
-        ><input
-          type="text"
-          id="interest_percentage"
-          placeholder="Loan interest percentage"
-        />
-      </div>
-      <div>
-        <label for="apartment_expenses">apartment expenses</label
-        ><input
-          type="text"
-          id="apartment_expenses"
-          placeholder="apartment expenses"
-        />
-      </div>
-      <div>
-        <label for="property_manager_fees">property manager fees</label
-        ><input
-          type="text"
-          id="property_manager_fees"
-          placeholder="property manager fees"
+          id="effective_tax_percentage"
+          placeholder="effective tax percentage"
+          value="30"
         />
       </div>
 
@@ -85,17 +136,34 @@
     </div>
 
     <div id="results">
+      <h1>Results</h1>
       <div>Loan Amount:</div>
-      <div class="loan_amount" id="loan_amount"></div>
+      <div class="loan_amount result" id="loan_amount"></div>
       <div>Interest Amount:</div>
-      <div class="interest_amount" id="interest_amount"></div>
+      <div class="interest_amount result" id="interest_amount"></div>
       <div>Profit without Tax:</div>
-      <div class="profit_without_tax" id="profit_without_tax"></div>
+      <div class="profit_without_tax result" id="profit_without_tax"></div>
       <div>Tax Deductible Amount:</div>
-      <div class="tax_deductible" id="tax_deductible"></div>
+      <div class="tax_deductible result" id="tax_deductible"></div>
 
+      <div>Yearly loan paid:</div>
+      <div class="yearly_loan_paid result" id="yearly_loan_paid"></div>
+      <div>Yearly appreciation amount:</div>
+      <div class="appreciation_amount result" id="appreciation_amount"></div>
       <div>Yearly passive income:</div>
-      <div class="yearly_passive_income" id="yearly_passive_income"></div>
+      <div
+        class="yearly_passive_income result"
+        id="yearly_passive_income"
+      ></div>
+      <div>Monthly passive income:</div>
+      <div
+        class="monthly_passive_income result"
+        id="monthly_passive_income"
+      ></div>
+      <div>Yearly profit amount:</div>
+      <div class="profit_amount result" id="profit_amount"></div>
+      <div>Yearly profit percentage:</div>
+      <div class="profit_percentage result" id="profit_percentage"></div>
     </div>
     <script>
       document
@@ -106,6 +174,8 @@
           document.getElementById("profit_without_tax").innerHTML = "";
           document.getElementById("tax_deductible").innerHTML = "";
           document.getElementById("yearly_passive_income").innerHTML = "";
+          var apartment_price =
+            document.getElementById("apartment_price").value * 1;
           var price = document.getElementById("price").value * 1;
           var capital = document.getElementById("capital").value * 1;
           var effective_tax_percentage =
@@ -121,7 +191,9 @@
             document.getElementById("apartment_expenses").value * 1;
           var property_manager_fees =
             document.getElementById("property_manager_fees").value * 1;
+          var appreciation = document.getElementById("appreciation").value * 1;
 
+          var appreciation_amount = (apartment_price * appreciation) / 100;
           var loan_amount = price - capital;
           var interest_amount = (loan_amount * interest_percentage) / 100;
           var profit_without_tax =
@@ -134,18 +206,30 @@
               rent_income_yearly) *
               effective_tax_percentage) /
             100;
+          var yearly_loan_paid = (yearly_loan_percentage * loan_amount) / 100;
           var yearly_passive_income =
-            tax_deductible +
-            profit_without_tax -
-            (yearly_loan_percentage * loan_amount) / 100;
+            tax_deductible + profit_without_tax - yearly_loan_paid;
+          var monthly_passive_income = yearly_passive_income / 12;
+          var profit_amount =
+            yearly_loan_paid + yearly_passive_income + appreciation_amount;
+          var profit_percentage = (profit_amount / capital) * 100;
           document.getElementById("loan_amount").innerHTML = loan_amount;
           document.getElementById("interest_amount").innerHTML =
             interest_amount;
           document.getElementById("profit_without_tax").innerHTML =
             profit_without_tax;
           document.getElementById("tax_deductible").innerHTML = tax_deductible;
+          document.getElementById("yearly_loan_paid").innerHTML =
+            yearly_loan_paid;
+          document.getElementById("appreciation_amount").innerHTML =
+            appreciation_amount;
           document.getElementById("yearly_passive_income").innerHTML =
             yearly_passive_income;
+          document.getElementById("monthly_passive_income").innerHTML =
+            monthly_passive_income;
+          document.getElementById("profit_amount").innerHTML = profit_amount;
+          document.getElementById("profit_percentage").innerHTML =
+            profit_percentage;
           document.getElementById("results").style.display = "block";
         });
     </script>
