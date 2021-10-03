@@ -212,7 +212,10 @@
           var monthly_passive_income = yearly_passive_income / 12;
           var profit_amount =
             yearly_loan_paid + yearly_passive_income + appreciation_amount;
-          var profit_percentage = (profit_amount / capital) * 100;
+          var profit_percentage =
+            yearly_passive_income > 0
+              ? (profit_amount / capital) * 100
+              : ((profit_amount + yearly_passive_income) / capital) * 100;
           document.getElementById("loan_amount").innerHTML = loan_amount;
           document.getElementById("interest_amount").innerHTML =
             interest_amount;
